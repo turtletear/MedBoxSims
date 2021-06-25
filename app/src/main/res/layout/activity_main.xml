@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            >
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="20dp"
+                    android:text="-">
+
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="right"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/bluetooth_image"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_bluetooth"
+                    />
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/btSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:checked="false" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/bt_listen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="start listen"
+            android:backgroundTint="@color/light_green"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="7dp">
+
+            <Button
+                android:id="@+id/bt_imatinib"
+                android:layout_width="120dp"
+                android:layout_height="90dp"
+                android:text="Imatinib" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="7dp">
+
+            <Button
+                android:id="@+id/bt_other"
+                android:layout_width="120dp"
+                android:layout_height="90dp"
+                android:text="Other" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
