@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
 
     lateinit var bAdapter: BluetoothAdapter
     lateinit var tvStatus: TextView
-    lateinit var servThread: ServerThread
+    var servThread: ServerThread? = null
     private val MY_UUID = UUID.fromString("91ce3659-1535-4b05-a89d-08ca023c8dd5")
     private val MY_APP_NAME = "medAdh"
     private val REQUEST_CODE_ENABLE_BT: Int = 1
@@ -39,19 +39,40 @@ class MainActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
         try {
             bAdapter = BluetoothAdapter.getDefaultAdapter()
             btSwitch.setOnCheckedChangeListener(this)
+            tvStatus = findViewById(R.id.tv_status)
             bt_listen.setOnClickListener {
                 startListen()
             }
+
             bt_imatinib.setOnClickListener {
-                sendData("Imatinib")
+                if (tvStatus.text.equals("Connected") && bAdapter.isEnabled)
+                    sendData("Imatinib")
+                else
+                    Toast.makeText(this, "Device is not connected", Toast.LENGTH_LONG).show()
+            }
+            bt_nilotinib.setOnClickListener {
+                if (tvStatus.text.equals("Connected") && bAdapter.isEnabled)
+                    sendData("Nilotinib")
+                else
+                    Toast.makeText(this, "Device is not connected", Toast.LENGTH_LONG).show()
             }
 
-            bt_other.setOnClickListener {
-                sendData("Other")
+            bt_dasatinib.setOnClickListener {
+                if (tvStatus.text.equals("Connected") && bAdapter.isEnabled)
+                    sendData("Dasatinib")
+                else
+                    Toast.makeText(this, "Device is not connected", Toast.LENGTH_LONG).show()
             }
+
+            bt_ponatinib.setOnClickListener {
+                if (tvStatus.text.equals("Connected") && bAdapter.isEnabled)
+                    sendData("Ponatinib")
+                else
+                    Toast.makeText(this, "Device is not connected", Toast.LENGTH_LONG).show()
+            }
+
 
             allowLocationDetectionPermissions()
-            tvStatus = findViewById(R.id.tv_status)
 
         }catch (e: NullPointerException){
             Toast.makeText(this, "Device doesn't support Bluetooth", Toast.LENGTH_LONG).show()
@@ -85,6 +106,8 @@ class MainActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
         }
         else {
             bAdapter.disable()
+            if(servThread != null)
+                servThread?.cancel()
             tv_status.text = "BT OFF"
         }
     }//end func
@@ -102,20 +125,20 @@ class MainActivity : AppCompatActivity(), CompoundButton.OnCheckedChangeListener
             Toast.makeText(this, "Please Turn On the Bluetooth", Toast.LENGTH_SHORT).show()
         else{
             servThread = ServerThread(bAdapter, MY_APP_NAME, MY_UUID, tvStatus, this)
-            servThread.start()
+            servThread?.start()
         }
     }
 
     private fun sendData(data: String){
         val dataConv = data.toByteArray()
         try {
-            val socket = servThread.getSocket()
+            val socket = servThread?.getSocket()
             socket?.let {
                 val handler = Handler(Looper.getMainLooper())
                 val services = SendReceive(socket, handler)
                 services.write(dataConv)
             }
-            Log.d("btDev", "Send data success!")
+            Log.d("btDev", "Send data success! data: ${data}")
         }catch (e: IOException){
             e.printStackTrace()
             Log.e("btDev", "Send data error")
